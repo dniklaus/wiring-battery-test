@@ -42,14 +42,26 @@ void setup()
   //-----------------------------------------------------------------------------
   // Battery Voltage Surveillance
   //-----------------------------------------------------------------------------
+  // Test values
+  //  BatteryThresholdConfig battCfg = { 3.995, // BATT_WARN_THRSHD [V]
+  //                                     3.980, // BATT_STOP_THRSHD [V]
+  //                                     3.965, // BATT_SHUT_THRSHD [V]
+  //                                     0.01   // BATT_HYST        [V]
+  //                                    };
+#if defined (ARDUINO_ARCH_SAMD) && defined (__SAMD21G18A__) // Adafruit Feather M0
   BatteryThresholdConfig battCfg = { 3.6, // BATT_WARN_THRSHD [V]
                                      3.4, // BATT_STOP_THRSHD [V]
                                      3.2, // BATT_SHUT_THRSHD [V]
                                      0.1  // BATT_HYST        [V]
                                     };
-  battery = new Battery(0, battCfg);
-  BatteryAdapter* mBatAdapter = new MyBatteryAdapter(battery);
-  battery->attachAdapter(mBatAdapter);
+#else
+  BatteryThresholdConfig battCfg = { 7.5, // BATT_WARN_THRSHD [V]
+                                     6.5, // BATT_STOP_THRSHD [V]
+                                     6.1, // BATT_SHUT_THRSHD [V]
+                                     0.3  // BATT_HYST        [V]
+                                    };
+#endif
+  battery = new Battery(new MyBatteryAdapter(), battCfg);
 }
 
 void loop()

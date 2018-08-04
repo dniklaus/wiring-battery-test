@@ -6,10 +6,12 @@
  */
 
 #include <Arduino.h>
+#include <DbgTracePort.h>
+#include <DbgTraceLevel.h>
 #include <MyBatteryAdapter.h>
 
-MyBatteryAdapter::MyBatteryAdapter(Battery* battery)
-: m_battery(battery)
+MyBatteryAdapter::MyBatteryAdapter()
+: BatteryAdapter()
 { }
 
 MyBatteryAdapter::~MyBatteryAdapter()
@@ -25,13 +27,4 @@ unsigned int MyBatteryAdapter::readRawBattSenseValue()
 
   unsigned int rawBattSenseValue = analogRead(VBATPIN);
   return rawBattSenseValue;
-}
-
-void MyBatteryAdapter::notifyAnyChange()
-{
-  if (0 != m_battery)
-  {
-    m_battery->getBatteryVoltage();
-    m_battery->isBattVoltageOk();
-  }
 }

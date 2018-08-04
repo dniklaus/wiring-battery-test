@@ -12,25 +12,13 @@
 
 class MyBatteryAdapter: public BatteryAdapter
 {
-private:
-  Battery* m_battery;
-
 public:
-  MyBatteryAdapter(Battery* battery);
-	virtual ~MyBatteryAdapter();
+  MyBatteryAdapter();
+  virtual ~MyBatteryAdapter();
 
   unsigned int readRawBattSenseValue();
 
-  void notifyBattVoltageOk()                      { notifyAnyChange(); }
-  void notifyBattVoltageBelowWarnThreshold()      { notifyAnyChange(); }
-  void notifyBattVoltageBelowStopThreshold()      { notifyAnyChange(); }
-  void notifyBattVoltageBelowShutdownThreshold()  { notifyAnyChange(); }
-
-private:
-  void notifyAnyChange();
-
 private: // forbidden default functions
-	MyBatteryAdapter();                                         // default constructor
 	MyBatteryAdapter& operator = (const MyBatteryAdapter& src); // assignment operator
 	MyBatteryAdapter(const MyBatteryAdapter& src);              // copy constructor
 };
